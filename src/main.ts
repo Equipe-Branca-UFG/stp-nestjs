@@ -1,15 +1,11 @@
-import { NestFactory, Reflector } from '@nestjs/core';
+import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-import { JwtAuthGuard } from './auth/jwt-auth.guard';
-import { RolesGuard } from './auth/roles.guard';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    logger: ['error', 'warn', 'debug'],
+    logger: ['error', 'warn', 'log', 'debug', 'verbose'],
   });
-
-  app.useGlobalGuards(new JwtAuthGuard(), new RolesGuard(app.get(Reflector)));
 
   const config = new DocumentBuilder()
     .setTitle('Sistema de Transferência de Pacientes API')
