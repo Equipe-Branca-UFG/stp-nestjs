@@ -14,10 +14,11 @@ export class TransferRequestService {
         patient: true,
         fromHospital: true,
         toHospital: true,
-        medications: true,
-        procedures: true,
-        equipments: true,
-        documents: true,
+        Medication: true,
+        Procedure: true,
+        Equipment: true,
+        Document: true,
+        requestingDoctor: true,
       },
     });
   }
@@ -25,21 +26,47 @@ export class TransferRequestService {
   async createTransferRequest(
     data: CreateTransferRequestDto,
   ): Promise<TransferRequest> {
+    const {
+      patientId,
+      fromHospitalId,
+      toHospitalId,
+      requestingDoctorId,
+      medicationIds,
+      procedureIds,
+      equipmentIds,
+      documentIds,
+      ...otherData
+    } = data;
+
     return this.prisma.transferRequest.create({
       data: {
-        patient: { connect: { id: data.patientId } },
-        fromHospital: { connect: { id: data.fromHospitalId } },
-        toHospital: { connect: { id: data.toHospitalId } },
-        status: data.status,
-        transportType: data.transportType,
-        classification: data.classification,
-        departureTime: data.departureTime,
-        estimatedArrivalTime: data.estimatedArrivalTime,
+        ...otherData,
+        patient: { connect: { id: patientId } },
+        fromHospital: { connect: { id: fromHospitalId } },
+        toHospital: { connect: { id: toHospitalId } },
+        requestingDoctor: { connect: { id: requestingDoctorId } },
+        Medication: {
+          connect: medicationIds?.map((id) => ({ id })) || [],
+        },
+        Procedure: {
+          connect: procedureIds?.map((id) => ({ id })) || [],
+        },
+        Equipment: {
+          connect: equipmentIds?.map((id) => ({ id })) || [],
+        },
+        Document: {
+          connect: documentIds?.map((id) => ({ id })) || [],
+        },
       },
       include: {
         patient: true,
         fromHospital: true,
         toHospital: true,
+        requestingDoctor: true,
+        Medication: true,
+        Procedure: true,
+        Equipment: true,
+        Document: true,
       },
     });
   }
@@ -55,10 +82,11 @@ export class TransferRequestService {
         patient: true,
         fromHospital: true,
         toHospital: true,
-        medications: true,
-        procedures: true,
-        equipments: true,
-        documents: true,
+        Medication: true,
+        Procedure: true,
+        Equipment: true,
+        Document: true,
+        requestingDoctor: true,
       },
     });
   }
@@ -80,11 +108,11 @@ export class TransferRequestService {
     return this.prisma.transferRequest.update({
       where: { id },
       data: {
-        medications: {
+        Medication: {
           create: medicationData,
         },
       },
-      include: { medications: true },
+      include: { Medication: true },
     });
   }
 }

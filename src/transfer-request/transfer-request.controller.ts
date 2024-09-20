@@ -1,13 +1,30 @@
-// src/transfer-request/transfer-request.controller.ts
-
-import { Controller, Get, Post, Put, Body, Param } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Body,
+  Param,
+  UseGuards,
+} from '@nestjs/common';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiParam,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { TransferRequestService } from './transfer-request.service';
 import { TransferRequest } from './entities/transfer-request.entity';
 import { CreateTransferRequestDto } from './dto/create-transfer-request.dto';
+import { RolesGuard } from 'src/auth/roles.guard';
+import { Roles } from 'src/auth/roles.decorator';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @ApiTags('transfer-requests')
 @Controller('transfer-requests')
+@UseGuards(JwtAuthGuard, RolesGuard)
+@ApiBearerAuth()
 export class TransferRequestController {
   constructor(
     private readonly transferRequestService: TransferRequestService,
@@ -29,6 +46,7 @@ export class TransferRequestController {
   }
 
   @Post()
+  @Roles('admin')
   @ApiOperation({ summary: 'Create a new transfer request' })
   @ApiResponse({
     status: 201,
@@ -36,6 +54,22 @@ export class TransferRequestController {
     type: TransferRequest,
   })
   async createTransferRequest(
+    @Body() createTransferRequestDto: CreateTransferRequestDto,
+  ): Promise<TransferRequest> {
+    return this.transferRequestService.createTransferRequest(
+      createTransferRequestDto,
+    );
+  }
+
+  @Post('doctor-request')
+  @Roles('doctor')
+  @ApiOperation({ summary: 'Create a new transfer request as a doctor' })
+  @ApiResponse({
+    status: 201,
+    description: 'The transfer request has been successfully created.',
+    type: TransferRequest,
+  })
+  async createTransferRequestByDoctor(
     @Body() createTransferRequestDto: CreateTransferRequestDto,
   ): Promise<TransferRequest> {
     return this.transferRequestService.createTransferRequest(

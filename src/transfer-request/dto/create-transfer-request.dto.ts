@@ -1,5 +1,3 @@
-// src/transfer-request/dto/create-transfer-request.dto.ts
-
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateTransferRequestDto {
@@ -43,4 +41,41 @@ export class CreateTransferRequestDto {
     required: false,
   })
   estimatedArrivalTime?: Date;
+
+  @ApiProperty({ description: 'ID of the doctor making the transfer request' })
+  requestingDoctorId: string;
+
+  @ApiProperty({
+    example: 'Patient requires immediate specialized care',
+    description: 'Reason for the transfer request',
+  })
+  reason: string;
+
+  @ApiProperty({
+    type: [String],
+    description: 'IDs of medications for this transfer',
+    required: false,
+  })
+  medicationIds?: string[];
+
+  @ApiProperty({
+    type: [String],
+    description: 'IDs of procedures for this transfer',
+    required: false,
+  })
+  procedureIds?: string[];
+
+  @ApiProperty({
+    type: [String],
+    description: 'IDs of equipment for this transfer',
+    required: false,
+  })
+  equipmentIds?: string[];
+
+  @ApiProperty({
+    type: [String],
+    description: 'IDs of documents for this transfer',
+    required: false,
+  })
+  documentIds?: string[];
 }
