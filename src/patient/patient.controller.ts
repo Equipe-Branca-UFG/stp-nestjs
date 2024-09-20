@@ -29,6 +29,17 @@ export class PatientController {
     return this.patientService.createPatient(createPatientDto);
   }
 
+  @Get()
+  @ApiOperation({ summary: 'Get all patients' })
+  @ApiResponse({
+    status: 200,
+    description: 'Return all patients.',
+    type: [Patient],
+  })
+  async getAllPatients(): Promise<Patient[]> {
+    return this.patientService.getAllPatients();
+  }
+
   @Get(':id')
   @ApiOperation({ summary: 'Get a patient by id' })
   @ApiResponse({

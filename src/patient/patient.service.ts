@@ -12,6 +12,10 @@ export class PatientService {
     });
   }
 
+  async getAllPatients(): Promise<Patient[]> {
+    return this.prisma.patient.findMany();
+  }
+
   async createPatient(data: Prisma.PatientCreateInput): Promise<Patient> {
     return this.prisma.patient.create({ data });
   }

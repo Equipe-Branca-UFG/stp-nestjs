@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  nestjs:
+    container_name: nestjs-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    env_file:
+      - .env
+    networks:
+      - nest-mongo-network
+    command: >
+      sh -c "
+      sleep 20 && 
+      npx prisma db push && 
+      npm run start:prod
+      "
+
+volumes:
+  mongodb_data:
+
+networks:
+  nest-mongo-network:
+    driver: bridge

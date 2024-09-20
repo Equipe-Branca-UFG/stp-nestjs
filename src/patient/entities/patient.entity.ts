@@ -1,5 +1,3 @@
-// src/patient/entities/patient.entity.ts
-
 import { ApiProperty } from '@nestjs/swagger';
 
 export class Patient {
