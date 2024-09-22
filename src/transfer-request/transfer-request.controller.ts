@@ -20,6 +20,7 @@ import { CreateTransferRequestDto } from './dto/create-transfer-request.dto';
 import { RolesGuard } from 'src/auth/roles.guard';
 import { Roles } from 'src/auth/roles.decorator';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { TransferRequestListDto } from './dto/transfer-request-list.dto';
 
 @ApiTags('transfer-requests')
 @Controller('transfer-requests')
@@ -29,6 +30,18 @@ export class TransferRequestController {
   constructor(
     private readonly transferRequestService: TransferRequestService,
   ) {}
+
+  @Get()
+  @ApiOperation({ summary: 'List all transfer requests' })
+  @ApiResponse({
+    status: 200,
+    description:
+      'Returns a list of transfer requests with detailed information.',
+    type: [TransferRequestListDto],
+  })
+  async listTransferRequests(): Promise<TransferRequestListDto[]> {
+    return this.transferRequestService.listTransferRequests();
+  }
 
   @Get(':id')
   @ApiOperation({ summary: 'Get a transfer request by id' })
@@ -46,7 +59,7 @@ export class TransferRequestController {
   }
 
   @Post()
-  @Roles('admin')
+  @Roles('admin', 'doctor')
   @ApiOperation({ summary: 'Create a new transfer request' })
   @ApiResponse({
     status: 201,

@@ -1,11 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { TransferRequest, Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { CreateTransferRequestDto } from './dto/create-transfer-request.dto';
+import { TransferRequestListDto } from './dto/transfer-request-list.dto';
+import { TransferRequest } from './entities/transfer-request.entity';
+import { HospitalService } from 'src/hospital/hospital.service';
+import { UsersService } from 'src/users/users.service';
+import { PatientService } from 'src/patient/patient.service';
 
 @Injectable()
 export class TransferRequestService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private patientService: PatientService,
+    private hospitalService: HospitalService,
+    private userService: UsersService,
+  ) {}
 
   async getTransferRequest(id: string): Promise<TransferRequest | null> {
     return this.prisma.transferRequest.findUnique({
@@ -114,5 +124,53 @@ export class TransferRequestService {
       },
       include: { Medication: true },
     });
+  }
+
+  async listTransferRequests(): Promise<TransferRequestListDto[]> {
+    const transferRequests = await this.prisma.transferRequest.findMany({
+      include: {
+        patient: true,
+        fromHospital: true,
+        toHospital: true,
+        Medication: true,
+        Procedure: true,
+        Equipment: true,
+        Document: true,
+        requestingDoctor: true,
+      },
+    });
+
+    const detailedTransferRequests = await Promise.all(
+      transferRequests.map(async (request) => {
+        const patient = await this.patientService.getPatient(request.patientId);
+        const fromHospital = await this.hospitalService.getHospital(
+          request.fromHospitalId,
+        );
+        const toHospital = await this.hospitalService.getHospital(
+          request.toHospitalId,
+        );
+        const requestingDoctor = await this.userService.findUserById(
+          request.requestingDoctorId,
+        );
+
+        return {
+          id: request.id,
+          patientName: patient ? `${patient.name}` : 'Unknown',
+          fromHospitalName: fromHospital ? fromHospital.name : 'Unknown',
+          toHospitalName: toHospital ? toHospital.name : 'Unknown',
+          status: request.status,
+          transportType: request.transportType,
+          classification: request.classification,
+          departureTime: request.departureTime,
+          estimatedArrivalTime: request.estimatedArrivalTime,
+          requestingDoctorName: requestingDoctor
+            ? `Dr. ${requestingDoctor.name}`
+            : 'Unknown',
+          reason: request.reason,
+        };
+      }),
+    );
+
+    return detailedTransferRequests;
   }
 }

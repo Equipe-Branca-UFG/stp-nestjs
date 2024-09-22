@@ -14,7 +14,7 @@ model User {
   password         String
   name             String
   role             String // Could be 'doctor', 'nurse', etc.
-  transferRequests TransferRequest[]
+  transferRequests TransferRequest[] @relation("RequestingDoctor")
   Doctor           Doctor[]
 }
 
@@ -49,7 +49,7 @@ model TransferRequest {
   classification       String
   departureTime        DateTime?
   estimatedArrivalTime DateTime?
-  requestingDoctor     User         @relation(fields: [requestingDoctorId], references: [id])
+  requestingDoctor     User         @relation("RequestingDoctor", fields: [requestingDoctorId], references: [id])
   requestingDoctorId   String       @db.ObjectId
   reason               String
   Medication           Medication[]

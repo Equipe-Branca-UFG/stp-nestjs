@@ -9,7 +9,9 @@ describe('TransferRequestController', () => {
       controllers: [TransferRequestController],
     }).compile();
 
-    controller = module.get<TransferRequestController>(TransferRequestController);
+    controller = module.get<TransferRequestController>(
+      TransferRequestController,
+    );
   });
 
   it('should be defined', () => {
