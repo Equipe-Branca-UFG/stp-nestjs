@@ -8,11 +8,11 @@ import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
-    PatientModule,
+    AuthModule,
     HospitalModule,
+    PatientModule,
     TransferRequestModule,
     PrismaModule,
-    AuthModule,
     UsersModule,
   ],
 })
