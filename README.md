@@ -30,9 +30,9 @@ Certifique-se de adicionar o arquivo `.env` com as seguintes variáveis:
 
 ## Participantes
 
-Bruna Larissa Câmara Queiroz;
-Eduardo de Sousa Batista;
-Guilherme Alves Martins;
-Lara Maria Veloso Andrade;
-Márcio Gabriel Queiroz Flores;
-Mario Elias Cândido Neto.
+- Bruna Larissa Câmara Queiroz;
+- Eduardo de Sousa Batista;
+- Guilherme Alves Martins;
+- Lara Maria Veloso Andrade;
+- Márcio Gabriel Queiroz Flores;
+- Mario Elias Cândido Neto.
