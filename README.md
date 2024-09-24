@@ -28,4 +28,11 @@ Certifique-se de adicionar o arquivo `.env` com as seguintes variáveis:
 - `JWT_SECRET`: Chave secreta para o JWT. Exemplo: `63a0adbff0a3feece93073b627d5f2f79015971ec1eb43dd0dabdba2dfe379b3`.
 - `DATABASE_URL`: URL de conexão com o banco de dados. Exemplo: `mongodb+srv://<username>:<password>@cluster0.mongodb.net/mydatabase?retryWrites=true&w=majority`.
 
+## Participantes
 
+Bruna Larissa Câmara Queiroz;
+Eduardo de Sousa Batista;
+Guilherme Alves Martins;
+Lara Maria Veloso Andrade;
+Márcio Gabriel Queiroz Flores;
+Mario Elias Cândido Neto.
