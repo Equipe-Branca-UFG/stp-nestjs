@@ -24,4 +24,8 @@ export class EquipmentService {
   ): Promise<Equipment> {
     return this.prisma.equipment.update({ where: { id }, data });
   }
+
+  async remove(id: string): Promise<Equipment> {
+    return this.prisma.equipment.delete({ where: { id } });
+  }
 }

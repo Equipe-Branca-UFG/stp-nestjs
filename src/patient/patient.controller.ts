@@ -77,6 +77,6 @@ export class PatientController {
   })
   @ApiParam({ name: 'id', description: 'Patient ID' })
   async deletePatient(@Param('id') id: string): Promise<Patient> {
-    return this.patientService.deletePatient(id);
+    return this.patientService.remove(id);
   }
 }

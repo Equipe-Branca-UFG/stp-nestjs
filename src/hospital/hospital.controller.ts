@@ -1,6 +1,14 @@
 // src/hospital/hospital.controller.ts
 
-import { Controller, Get, Post, Put, Body, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Body,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 import { HospitalService } from './hospital.service';
 import { Hospital } from './entities/hospital.entity';
@@ -58,5 +66,16 @@ export class HospitalController {
     @Body() updateHospitalDto: Hospital,
   ): Promise<Hospital> {
     return this.hospitalService.updateHospital(id, updateHospitalDto);
+  }
+
+  @Delete(':id')
+  @ApiOperation({ summary: 'Delete a hospital' })
+  @ApiResponse({
+    status: 200,
+    description: 'The hospital has been successfully deleted.',
+    type: Hospital,
+  })
+  async remove(@Param('id') id: string): Promise<Hospital> {
+    return this.hospitalService.remove(id);
   }
 }

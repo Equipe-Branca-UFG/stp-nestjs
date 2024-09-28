@@ -24,4 +24,8 @@ export class ProcedureService {
   ): Promise<Procedure> {
     return this.prisma.procedure.update({ where: { id }, data });
   }
+
+  async remove(id: string): Promise<Procedure> {
+    return this.prisma.procedure.delete({ where: { id } });
+  }
 }

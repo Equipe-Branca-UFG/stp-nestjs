@@ -24,4 +24,8 @@ export class DocumentService {
   ): Promise<Document> {
     return this.prisma.document.update({ where: { id }, data });
   }
+
+  async remove(id: string): Promise<Document> {
+    return this.prisma.document.delete({ where: { id } });
+  }
 }

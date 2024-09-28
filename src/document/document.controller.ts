@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Param, Put } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Put,
+  Delete,
+} from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { DocumentService } from './document.service';
 import { CreateDocumentDto } from './dto/create-document.dto';
@@ -57,5 +65,16 @@ export class DocumentController {
     @Body() updateDocumentDto: UpdateDocumentDto,
   ): Promise<Document> {
     return this.documentService.update(id, updateDocumentDto);
+  }
+
+  @Delete(':id')
+  @ApiOperation({ summary: 'Delete a document' })
+  @ApiResponse({
+    status: 200,
+    description: 'The document has been successfully deleted.',
+    type: Document,
+  })
+  async remove(@Param('id') id: string): Promise<Document> {
+    return this.documentService.remove(id);
   }
 }

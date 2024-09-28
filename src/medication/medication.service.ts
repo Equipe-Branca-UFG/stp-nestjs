@@ -24,4 +24,8 @@ export class MedicationService {
   ): Promise<Medication> {
     return this.prisma.medication.update({ where: { id }, data });
   }
+
+  async remove(id: string): Promise<Medication> {
+    return this.prisma.medication.delete({ where: { id } });
+  }
 }

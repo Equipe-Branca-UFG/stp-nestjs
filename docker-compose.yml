@@ -13,8 +13,7 @@ services:
       - nest-mongo-network
     command: >
       sh -c "
-      sleep 20 && 
-      npx prisma db push && 
+      sleep 20 &&  
       npm run start:prod
       "
 

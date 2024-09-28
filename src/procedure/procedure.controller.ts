@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Param, Put } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Put,
+  Delete,
+} from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { ProcedureService } from './procedure.service';
 import { CreateProcedureDto } from './dto/create-procedure.dto';
@@ -57,5 +65,16 @@ export class ProcedureController {
     @Body() updateProcedureDto: UpdateProcedureDto,
   ): Promise<Procedure> {
     return this.procedureService.update(id, updateProcedureDto);
+  }
+
+  @Delete(':id')
+  @ApiOperation({ summary: 'Delete a procedure' })
+  @ApiResponse({
+    status: 200,
+    description: 'The procedure has been successfully deleted.',
+    type: Procedure,
+  })
+  async remove(@Param('id') id: string): Promise<Procedure> {
+    return this.procedureService.remove(id);
   }
 }

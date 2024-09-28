@@ -30,4 +30,8 @@ export class HospitalService {
       data,
     });
   }
+
+  async remove(id: string): Promise<Hospital> {
+    return this.prisma.hospital.delete({ where: { id } });
+  }
 }

@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Param, Put } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Put,
+  Delete,
+} from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { EquipmentService } from './equipment.service';
 import { CreateEquipmentDto } from './dto/create-equipment.dto';
@@ -57,5 +65,16 @@ export class EquipmentController {
     @Body() updateEquipmentDto: UpdateEquipmentDto,
   ): Promise<Equipment> {
     return this.equipmentService.update(id, updateEquipmentDto);
+  }
+
+  @Delete(':id')
+  @ApiOperation({ summary: 'Delete an equipment' })
+  @ApiResponse({
+    status: 200,
+    description: 'The equipment has been successfully deleted.',
+    type: Equipment,
+  })
+  async remove(@Param('id') id: string): Promise<Equipment> {
+    return this.equipmentService.remove(id);
   }
 }
